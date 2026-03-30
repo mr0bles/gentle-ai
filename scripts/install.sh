@@ -37,8 +37,17 @@ install_go() {
         *)         echo "❌ Unsupported architecture: $ARCH"; exit 1 ;;
     esac
 
-    GO_VERSION="1.24.2"
+    # Get latest stable Go version
+    GO_VERSION=$(curl -sL https://go.dev/dl/?mode=json | grep -o '"version": "go[^"]*"' | head -1 | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+')
+    
+    if [ -z "$GO_VERSION" ]; then
+        # Fallback to known stable version
+        GO_VERSION="1.23.5"
+    fi
+    
     GO_URL="https://go.dev/dl/go${GO_VERSION}.linux-${GOARCH}.tar.gz"
+
+    echo "   Downloading Go ${GO_VERSION}..."
 
     # Download and install Go
     curl -fsSL "$GO_URL" -o /tmp/go.tar.gz
@@ -57,7 +66,7 @@ if ! command -v go &> /dev/null; then
     install_go
 else
     # Check Go version (need 1.21+)
-    GO_VERSION_NUM=$(go version | grep -oP 'go\K[0-9]+\.[0-9]+' | head -1)
+    GO_VERSION_NUM=$(go version 2>/dev/null | grep -oP 'go\K[0-9]+\.[0-9]+' | head -1)
     GO_MAJOR=$(echo $GO_VERSION_NUM | cut -d. -f1)
     GO_MINOR=$(echo $GO_VERSION_NUM | cut -d. -f2)
 
