@@ -1,6 +1,6 @@
 module github.com/gentleman-programming/gentle-ai
 
-go 1.24
+go 1.23
 
 require (
 	github.com/charmbracelet/bubbletea v1.3.4
