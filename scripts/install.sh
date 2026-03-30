@@ -37,13 +37,10 @@ install_go() {
         *)         echo "❌ Unsupported architecture: $ARCH"; exit 1 ;;
     esac
 
-    # Get latest stable Go version
-    GO_VERSION=$(curl -sL https://go.dev/dl/?mode=json | grep -o '"version": "go[^"]*"' | head -1 | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+')
+    # Use latest known stable Go version (1.23.x is latest as of 2026)
+    GO_VERSION="1.23.5"
     
-    if [ -z "$GO_VERSION" ]; then
-        # Fallback to known stable version
-        GO_VERSION="1.23.5"
-    fi
+    echo "   Using Go ${GO_VERSION}"
     
     GO_URL="https://go.dev/dl/go${GO_VERSION}.linux-${GOARCH}.tar.gz"
 
