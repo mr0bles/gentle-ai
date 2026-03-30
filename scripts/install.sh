@@ -37,8 +37,8 @@ install_go() {
         *)         echo "❌ Unsupported architecture: $ARCH"; exit 1 ;;
     esac
 
-    # Use latest known stable Go version (1.23.x is latest as of 2026)
-    GO_VERSION="1.23.5"
+    # Use Go 1.24 (required by gentle-ai)
+    GO_VERSION="1.24.0"
     
     echo "   Using Go ${GO_VERSION}"
     
